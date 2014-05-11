@@ -103,9 +103,17 @@ func (p *Pollable) write(b []byte) (int, error) {
 	}
 }
 
+// Close deregisters the Pollable and closes the underlying file descriptor.
+func (p *Pollable) Close() error {
+	err := p.deregister(p)
+	// p.fd = uintptr(-1) // TODO(dfc) fix
+	return err
+}
+
 // WaitRead waits for the Pollable to become ready for
 // reading.
 func (p *Pollable) WaitRead() error {
+	debug("pollable: %p, fd: %v  waitread", p, p.fd)
 	if err := p.poller.waitRead(p); err != nil {
 		return err
 	}
@@ -122,6 +130,7 @@ func (p *Pollable) WaitWrite() error {
 }
 
 func (p *Pollable) wake(mode int, err error) {
+	debug("pollable: %p, fd: %v wake: %c, %v", p, p.fd, mode, err)
 	if mode == 'r' {
 		p.cr <- err
 	} else {
@@ -133,4 +142,5 @@ type poller interface {
 	register(fd uintptr) (*Pollable, error)
 	waitRead(*Pollable) error
 	waitWrite(*Pollable) error
+	deregister(*Pollable) error
 }
