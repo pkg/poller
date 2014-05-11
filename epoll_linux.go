@@ -10,8 +10,8 @@ import (
 
 // New creates a new Poller.
 func New() (*Poller, error) {
-        p, err := newEpoll()
-        return &Poller{poller: p}, err
+	p, err := newEpoll()
+	return &Poller{poller: p}, err
 }
 
 // newEpoll returns an epoll(2) poller implementation.
@@ -148,17 +148,4 @@ func epollctl(epfd uintptr, op int, fd uintptr, event *event) (err error) {
 		err = e1
 	}
 	return
-}
-
-type event struct {
-	events uint32
-	data   [2]uint32
-}
-
-func (e *event) setdata(p *Pollable) {
-	*(**Pollable)(unsafe.Pointer(&e.data[0])) = p
-}
-
-func (e *event) getdata() *Pollable {
-	return *(**Pollable)(unsafe.Pointer(&e.data[0]))
 }
