@@ -2,4 +2,4 @@
 
 package poller
 
-func debug(string, ...interface{}) { }
+func debug(string, ...interface{}) {}

@@ -42,7 +42,7 @@ func (e *epoll) register(fd uintptr) (*Pollable, error) {
 	if err := epollctl(e.pollfd, syscall.EPOLL_CTL_ADD, fd, &ev); err != nil {
 		return nil, err
 	}
-	debug("epoll: register: %v", &p)
+	debug("epoll: register: fd: %v, %p", p.fd, &p)
 	return &p, nil
 }
 
