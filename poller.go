@@ -13,12 +13,6 @@ type Poller struct {
 	poller
 }
 
-// New creates a new Poller.
-func New() (*Poller, error) {
-	p, err := newEpoll()
-	return &Poller{poller: p}, err
-}
-
 // Register registers a file describtor with the Poller and returns a
 // Pollable which can be used for reading/writing as well as readiness
 // notification.

@@ -8,6 +8,12 @@ import (
 	"unsafe"
 )
 
+// New creates a new Poller.
+func New() (*Poller, error) {
+        p, err := newEpoll()
+        return &Poller{poller: p}, err
+}
+
 // newEpoll returns an epoll(2) poller implementation.
 func newEpoll() (poller, error) {
 	fd, err := epollCreate1()
