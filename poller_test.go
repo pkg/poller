@@ -47,7 +47,7 @@ func TestWaitRead(t *testing.T) {
 		}
 		read <- buf[:]
 	}()
-	//close(ready)
+	close(ready)
 	select {
 	case buf := <-read:
 		if string(buf) != "hello" {
